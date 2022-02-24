@@ -35,7 +35,7 @@ const TabMenu = styled.ul`
     padding: 0;
 
     .submenu {
-        padding: 1rem;
+        padding: 0.5rem;
         width: 100%;
         margin: 0 auto;
         border-bottom: 1px solid #457CC7;
@@ -61,10 +61,29 @@ const Home = () => {
   const [currentTab, setCurrntTab] = useState(0)
   const [repoList, setRepoList] = useState([]);
 
+  const user = [
+    {
+      userName: 'songgao',
+      userRepo: 'water',
+    },
+    {
+      userName: 'balderdashy',
+      userRepo: 'waterline',
+    },
+  ];
+
   const menuArr = [
     { name: 'Search', content: <Search repoList={repoList} setRepoList={setRepoList} /> },
-    { name: 'Issue', content: <Issue userName='songgao' userRepo='water'></Issue> }
+    {
+      name: 'Issue',
+      content: <Issue user={user}></Issue>
+    }
   ];
+
+  // const menuArr = [
+  //   { name: 'Search', content: <Search repoList={repoList} setRepoList={setRepoList} /> },
+  //   { name: 'Issue', content: <Issue userName='songgao' userRepo='water'></Issue> }
+  // ];
 
   const selectMenuHandler = (index) => {
     setCurrntTab(index)

@@ -2,6 +2,7 @@ import { useState, useRef } from "react";
 import { octokit } from '../utils/octokit';
 import styled from "styled-components";
 import ContentBox from "./ContentBox";
+import Pagination from "./Pagination";
 
 const Container = styled.div`
     display: flex;
@@ -15,7 +16,7 @@ const SearchBox = styled.div`
     flex: 1;
     display: flex;
     justify-content: center;
-    margin-bottom: 2em;
+    margin-bottom: 1.5em;
 `
 
 const SearchInput = styled.input`
@@ -47,6 +48,9 @@ const EmptyBox = styled.div`
 
 const Search = ({ repoList, setRepoList }) => {
     const inputRef = useRef("");
+    const [limit, setLimit] = useState(5);
+    const [page, setPage] = useState(1);
+    const offset = (page - 1) * limit;
 
     const getSearchData = async () => {
         await octokit.request(
@@ -92,13 +96,19 @@ const Search = ({ repoList, setRepoList }) => {
                     <></> : (
                         <>
                             {
-                                repoList.map((repo) => (
+                                repoList.slice(offset, offset + limit).map((repo) => (
                                     < ContentBox
                                         key={repo.id}
                                         repo={repo}
                                     />
                                 ))
                             }
+                            <Pagination
+                                total={repoList.length}
+                                limit={limit}
+                                page={page}
+                                setPage={setPage}
+                            />
                         </>
                     )}
             </Container >
