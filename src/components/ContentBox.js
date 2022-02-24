@@ -1,20 +1,28 @@
+import { useState } from "react";
 import styled from "styled-components";
 
 const RepoListBox = styled.div`
     width: 44em;
-    height: 6em;
+    height: 7em;
     border-radius: 5px;
     box-shadow: 5px 5px 7px 0px rgba(217, 217, 217, 1);
     display: flex;
     justify-content: space-between;
-    padding: 1.5em 1em;
+    padding: 0.8em 1em;
     background-color: #ffffff;
     margin-bottom: 1em;
+    >.checked{
+        fill: #fd9999;
+    }
+    >.unchecked{
+        fill: #CBC3C3;
+    }
 `
 const InfoBox = styled.div`
     display: flex;
     align-items: center;
     text-align: left;
+    max-width: 40em;
 `
 
 const ImageBox = styled.img`
@@ -40,7 +48,43 @@ const Date = styled.p`
 `
 
 const ContentBox = ({ repo }) => {
-    const { name, description, updated_at, owner } = repo
+    const { name, description, updated_at, owner, full_name } = repo
+    const [isOn, setIsOn] = useState(false);
+
+    const toggleHandler = () => {
+        setIsOn(!isOn)
+    }
+
+    const repoHandler = (fullName) => {
+        const name = fullName.split('/')
+        let saveRepos = JSON.parse(localStorage.getItem("repoBookmark"));
+
+        if (!saveRepos) {
+            const repoBookmark = JSON.stringify([{ user: name[0], repo: name[1] }]);
+            localStorage.setItem("repoBookmark", repoBookmark);
+            toggleHandler();
+        } else {
+            let check = true;
+            saveRepos.forEach((el) => {
+                if (el.user === name[0]) {
+                    const repoBookmark = JSON.parse(localStorage.getItem("repoBookmark"));
+                    const newRepoBookmark = repoBookmark.filter((el) => el.user !== name[0]);
+                    localStorage.setItem("repoBookmark", JSON.stringify(newRepoBookmark));
+                    toggleHandler();
+                    check = false;
+                }
+            });
+            if (saveRepos.length < 4 && check) {
+                const addRepoBookmark = JSON.stringify([...saveRepos, { user: name[0], repo: name[1] }]);
+                localStorage.setItem("repoBookmark", addRepoBookmark);
+                toggleHandler();
+            } else if (saveRepos.length >= 4 && !isOn) {
+                alert("Repository는 최대 4개까지 등록할 수 있습니다");
+            }
+        }
+    };
+
+    console.log(localStorage)
 
     return (
         <RepoListBox>
@@ -53,6 +97,8 @@ const ContentBox = ({ repo }) => {
                 </TextBox>
             </InfoBox>
             <svg
+                className={`${isOn ? "checked" : "unchecked"}`}
+                onClick={() => repoHandler(full_name)}
                 xmlns="http://www.w3.org/2000/svg"
                 height="24px"
                 viewBox="0 0 24 24"
