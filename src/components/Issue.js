@@ -49,13 +49,15 @@ const Issue = (props) => {
   const [issueData, setIssueData] = useState();
 
   useEffect(() => {
-    searchIssues(props.userName, props.userRepo);
+    props.user.map((user) => 
+      searchIssues(user.userName, user.userRepo)
+    );
   }, []);
   
   return (
     <IssueWrapper>
       { (issueData) ? (
-        <> 
+        <>
         { issueData.map((issue) => 
           <IssueRepo>
             <a href={issue.user.html_url}>
@@ -71,7 +73,7 @@ const Issue = (props) => {
           </IssueRepo>
         )}
         </>
-        ) : (null) 
+        ) : "NOT ISSUE!" 
       }
     </IssueWrapper>
   );
@@ -82,7 +84,7 @@ const Issue = (props) => {
       repo: repo
     }).then(res =>{
       const loadData = res.data;
-      setIssueData(loadData);
+      setIssueData((prev) => prev ? [...prev, ...loadData] : loadData);
     }).catch((err) => alert(`에러 ${err}`));
   }
 }
