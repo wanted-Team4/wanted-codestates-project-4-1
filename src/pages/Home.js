@@ -8,7 +8,7 @@ import Issue from "../components/Issue";
 
 const MainContainer = styled.div`
   width: 100%;
-  min-height: 100%;
+  height: 100%;
 `;
 
 const Navbar = styled.div`
@@ -59,9 +59,10 @@ const Home = () => {
   const [issueData, setIssueData] = useState();
   const [repos, setRepos] = useRecoilState(Repos);
   const [currentTab, setCurrntTab] = useState(0)
+  const [repoList, setRepoList] = useState([]);
 
   const menuArr = [
-    { name: 'Search', content: <Search /> },
+    { name: 'Search', content: <Search repoList={repoList} setRepoList={setRepoList} /> },
     { name: 'Issue', content: <Issue userName='songgao' userRepo='water'></Issue> }
   ];
 

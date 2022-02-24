@@ -11,6 +11,13 @@ const RepoListBox = styled.div`
     padding: 0.8em 1em;
     background-color: #ffffff;
     margin-bottom: 1em;
+    transition: 0.3s;
+
+    :hover {
+    cursor: pointer;
+    transform: translateY(-5px);
+    }
+
     >.checked{
         fill: #fd9999;
     }
@@ -46,9 +53,18 @@ const Date = styled.p`
     font-size: 0.8em;
     font-weight: 400;
 `
+const LinkBox = styled.a`
+    display: flex;
+    text-decoration: none;
+    color: black;
+
+    :visited {
+        color: black;
+    }
+`
 
 const ContentBox = ({ repo }) => {
-    const { name, description, updated_at, owner, full_name } = repo
+    const { name, description, updated_at, owner, full_name, html_url } = repo
     const [isOn, setIsOn] = useState(false);
 
     const toggleHandler = () => {
@@ -84,17 +100,17 @@ const ContentBox = ({ repo }) => {
         }
     };
 
-    console.log(localStorage)
-
     return (
         <RepoListBox>
             <InfoBox>
-                <ImageBox src={owner.avatar_url}></ImageBox>
-                <TextBox>
-                    <Title>{name}</Title>
-                    <Desc>{description}</Desc>
-                    <Date>{updated_at}</Date>
-                </TextBox>
+                <LinkBox href={html_url} target="_blank">
+                    <ImageBox src={owner.avatar_url}></ImageBox>
+                    <TextBox>
+                        <Title>{name}</Title>
+                        <Desc>{description}</Desc>
+                        <Date>{updated_at}</Date>
+                    </TextBox>
+                </LinkBox>
             </InfoBox>
             <svg
                 className={`${isOn ? "checked" : "unchecked"}`}

@@ -26,6 +26,9 @@ const SearchInput = styled.input`
     padding-left: 1em;
     border: 1px solid #D1D1D1;
     box-shadow: 5px 5px 7px 0px rgba(217, 217, 217, 1);
+    :focus {
+        outline:none;
+        }
 `
 
 const SearchBtn = styled.button`
@@ -38,9 +41,11 @@ const SearchBtn = styled.button`
     font-size: 0.9em;
     box-shadow: 5px 5px 7px 0px rgba(217, 217, 217, 1);
 `
+const EmptyBox = styled.div`
+    height: 66vh;
+`
 
-const Search = () => {
-    const [repoList, setRepoList] = useState([]);
+const Search = ({ repoList, setRepoList }) => {
     const inputRef = useRef("");
 
     const getSearchData = async () => {
@@ -83,18 +88,19 @@ const Search = () => {
                     ></SearchInput>
                     <SearchBtn onClick={onClick}>검색</SearchBtn>
                 </SearchBox>
-                {repoList.length === 0 ? <></> : (
-                    <>
-                        {
-                            repoList.map((repo) => (
-                                < ContentBox
-                                    key={repo.id}
-                                    repo={repo}
-                                />
-                            ))
-                        }
-                    </>
-                )}
+                {repoList.length === 0 ?
+                    <></> : (
+                        <>
+                            {
+                                repoList.map((repo) => (
+                                    < ContentBox
+                                        key={repo.id}
+                                        repo={repo}
+                                    />
+                                ))
+                            }
+                        </>
+                    )}
             </Container >
         </>
     )
