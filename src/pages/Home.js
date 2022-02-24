@@ -4,6 +4,7 @@ import { useRecoilState } from 'recoil';
 import { Repos } from '../atoms';
 import styled from "styled-components";
 import Search from "../components/Search";
+import Issue from "../components/Issue";
 
 const MainContainer = styled.div`
   width: 100%;
@@ -61,7 +62,7 @@ const Home = () => {
 
   const menuArr = [
     { name: 'Search', content: <Search /> },
-    { name: 'Issue', content: 2 }
+    { name: 'Issue', content: <Issue userName='songgao' userRepo='water'></Issue> }
   ];
 
   const selectMenuHandler = (index) => {

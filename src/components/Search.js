@@ -1,3 +1,5 @@
+import { useState, useRef } from "react";
+import { octokit } from '../utils/octokit';
 import styled from "styled-components";
 import ContentBox from "./ContentBox";
 
@@ -37,18 +39,64 @@ const SearchBtn = styled.button`
     box-shadow: 5px 5px 7px 0px rgba(217, 217, 217, 1);
 `
 
-const RepoBox = styled.div`
-`
-
 const Search = () => {
+    const [repoList, setRepoList] = useState([]);
+    const inputRef = useRef("");
+
+    const getSearchData = async () => {
+        await octokit.request(
+            'GET /search/repositories', {
+            q: inputRef.current.value
+        }).then(res => {
+            const loadData = res.data.items;
+            console.log(loadData)
+            setRepoList(loadData);
+        }).catch((err) => alert(`에러 ${err}`));
+    };
+
+    const handleSearch = () => {
+        if (inputRef.current.value === "") {
+            return alert('Repository 제목을 입력해주세요.')
+        }
+        getSearchData();
+    }
+
+    const onClick = () => {
+        handleSearch();
+    }
+    const onKeyPress = (e) => {
+        if (e.key === 'Enter') {
+            handleSearch();
+        }
+    }
+
     return (
-        <Container>
-            <SearchBox>
-                <SearchInput placeholder="Repository 제목을 검색하세요."></SearchInput>
-                <SearchBtn>검색</SearchBtn>
-            </SearchBox>
-            <ContentBox />
-        </Container>
+        <>
+            <Container>
+                <SearchBox>
+                    <SearchInput
+                        type="search"
+                        placeholder="Repository 제목을 검색하세요."
+                        name="repoSearch"
+                        onKeyPress={onKeyPress}
+                        ref={inputRef}
+                    ></SearchInput>
+                    <SearchBtn onClick={onClick}>검색</SearchBtn>
+                </SearchBox>
+                {repoList.length === 0 ? <></> : (
+                    <>
+                        {
+                            repoList.map((repo) => (
+                                < ContentBox
+                                    key={repo.id}
+                                    repo={repo}
+                                />
+                            ))
+                        }
+                    </>
+                )}
+            </Container >
+        </>
     )
 }
 

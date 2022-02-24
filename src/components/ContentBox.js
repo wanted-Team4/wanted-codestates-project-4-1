@@ -2,13 +2,14 @@ import styled from "styled-components";
 
 const RepoListBox = styled.div`
     width: 44em;
-    height: 5.5em;
+    height: 6em;
     border-radius: 5px;
     box-shadow: 5px 5px 7px 0px rgba(217, 217, 217, 1);
     display: flex;
     justify-content: space-between;
-    padding: 0.8em 1em;
+    padding: 1.5em 1em;
     background-color: #ffffff;
+    margin-bottom: 1em;
 `
 const InfoBox = styled.div`
     display: flex;
@@ -19,7 +20,6 @@ const InfoBox = styled.div`
 const ImageBox = styled.img`
     width: 3em;
     height: 3em;
-    border: 1px solid black;
     border-radius: 50%;
     margin-right: 1.5em;
 `
@@ -39,15 +39,17 @@ const Date = styled.p`
     font-weight: 400;
 `
 
-const ContentBox = () => {
+const ContentBox = ({ repo }) => {
+    const { name, description, updated_at, owner } = repo
+
     return (
         <RepoListBox>
             <InfoBox>
-                <ImageBox src="logo192.png"></ImageBox>
+                <ImageBox src={owner.avatar_url}></ImageBox>
                 <TextBox>
-                    <Title>제목입니다</Title>
-                    <Desc>내용 설명입니다</Desc>
-                    <Date>2021.01.21</Date>
+                    <Title>{name}</Title>
+                    <Desc>{description}</Desc>
+                    <Date>{updated_at}</Date>
                 </TextBox>
             </InfoBox>
             <svg
