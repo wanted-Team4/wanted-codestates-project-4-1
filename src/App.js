@@ -1,5 +1,4 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-
 import React from "react";
 import Question1 from "./pages/Question1";
 import styled from "styled-components";
