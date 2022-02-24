@@ -4,10 +4,11 @@ import { useRecoilState } from 'recoil';
 import { Repos } from '../atoms';
 import styled from "styled-components";
 import Search from "../components/Search";
+import Issue from "../components/Issue";
 
 const MainContainer = styled.div`
   width: 100%;
-  min-height: 100%;
+  height: 100%;
 `;
 
 const Navbar = styled.div`
@@ -58,10 +59,11 @@ const Home = () => {
   const [issueData, setIssueData] = useState();
   const [repos, setRepos] = useRecoilState(Repos);
   const [currentTab, setCurrntTab] = useState(0)
+  const [repoList, setRepoList] = useState([]);
 
   const menuArr = [
-    { name: 'Search', content: <Search /> },
-    { name: 'Issue', content: 2 }
+    { name: 'Search', content: <Search repoList={repoList} setRepoList={setRepoList} /> },
+    { name: 'Issue', content: <Issue userName='songgao' userRepo='water'></Issue> }
   ];
 
   const selectMenuHandler = (index) => {
