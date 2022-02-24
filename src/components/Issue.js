@@ -1,7 +1,7 @@
 import { octokit } from '../utils/octokit';
 import styled from "styled-components";
 import { useEffect, useState } from "react";
-
+import Pagination from "./Pagination";
 const IssueWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -47,6 +47,9 @@ const Context = styled.div`
 
 const Issue = (props) => {
   const [issueData, setIssueData] = useState();
+  const [limit, setLimit] = useState(5);
+  const [page, setPage] = useState(1);
+  const offset = (page - 1) * limit;
 
   useEffect(() => {
     props.user.map((user) => 
@@ -58,7 +61,7 @@ const Issue = (props) => {
     <IssueWrapper>
       { (issueData) ? (
         <>
-        { issueData.map((issue) => 
+        { issueData.slice(offset, offset + limit).map((issue) => 
           <IssueRepo>
             <a href={issue.user.html_url}>
               <UserImage src={issue.user.avatar_url}/>
@@ -72,6 +75,12 @@ const Issue = (props) => {
             </a>
           </IssueRepo>
         )}
+          <Pagination
+            total={issueData.length}
+            limit={limit}
+            page={page}
+            setPage={setPage}
+          /> 
         </>
         ) : "NOT ISSUE!" 
       }
