@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 const RepoListBox = styled.div`
     width: 44em;
-    height: 7em;
+    height: 6.5em;
     border-radius: 5px;
     box-shadow: 5px 5px 7px 0px rgba(217, 217, 217, 1);
     display: flex;

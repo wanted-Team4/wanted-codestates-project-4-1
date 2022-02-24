@@ -1,22 +1,58 @@
 import { useState } from "react";
 import styled from "styled-components";
 
+const Nav = styled.nav`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  margin: 1em;
+`;
+
+const Button = styled.button`
+  border: none;
+  border-radius: 5px;
+  padding: 8px;
+  margin: 0;
+  background: #041562;
+  border: 1px solid #041562;
+  color: white;
+  font-size: 1rem;
+
+  &:hover {
+    background: #ffffff;
+    color: #041562;
+    border: 1px solid #041562;
+    cursor: pointer;
+    font-weight: bold;
+  }
+
+  &[aria-current] {
+    background: #ffffff;
+    font-weight: bold;
+    cursor: revert;
+    transform: revert;
+    color: #041562;
+    border: 1px solid #041562;
+  }
+`;
+
 function Pagination({ total, limit, page, setPage }) {
   const numPages = Math.ceil(total / limit);
   const [start, setStart] = useState(1);
 
   const prev = () => {
-    if(page === start && page !== 1)
+    if (page === start && page !== 1)
       setStart(prev => prev - 3)
     setPage(page - 1)
   }
 
   const next = () => {
-    if(page === start+4 && page !== numPages)
+    if (page === start + 4 && page !== numPages)
       setStart(prev => prev + 3)
     setPage(page + 1)
   }
-  
+
   return (
     <>
       <Nav>
@@ -41,42 +77,5 @@ function Pagination({ total, limit, page, setPage }) {
     </>
   );
 }
-
-const Nav = styled.nav`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 4px;
-  margin: 16px;
-`;
-
-const Button = styled.button`
-  border: none;
-  border-radius: 8px;
-  padding: 8px;
-  margin: 0;
-  background: black;
-  color: white;
-  font-size: 1rem;
-
-  &:hover {
-    background: tomato;
-    cursor: pointer;
-    transform: translateY(-2px);
-  }
-
-  &[disabled] {
-    background: grey;
-    cursor: revert;
-    transform: revert;
-  }
-
-  &[aria-current] {
-    background: deeppink;
-    font-weight: bold;
-    cursor: revert;
-    transform: revert;
-  }
-`;
 
 export default Pagination;
