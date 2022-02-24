@@ -3,9 +3,11 @@ import { useEffect, useState } from "react";
 import { useRecoilState } from 'recoil';
 import { Repos } from '../atoms';
 import styled from "styled-components";
+import Search from "../components/Search";
 
 const MainContainer = styled.div`
   width: 100%;
+  min-height: 100%;
 `;
 
 const Navbar = styled.div`
@@ -47,6 +49,8 @@ const Desc = styled.div`
     text-align: center;
     padding: 2.5rem 0;
     font-weight: bold;
+    background-color: #f1f1f1;
+    height: 100%;
 `;
 
 const Question1 = () => {
@@ -56,7 +60,7 @@ const Question1 = () => {
   const [currentTab, setCurrntTab] = useState(0)
 
   const menuArr = [
-    { name: 'Search', content: 1 },
+    { name: 'Search', content: <Search /> },
     { name: 'Issue', content: 2 }
   ];
 
@@ -90,7 +94,7 @@ const Question1 = () => {
         </TabMenu>
       </Navbar>
       <Desc>
-        <p>{menuArr[currentTab].content}</p>
+        {menuArr[currentTab].content}
       </Desc>
     </MainContainer>
   );
