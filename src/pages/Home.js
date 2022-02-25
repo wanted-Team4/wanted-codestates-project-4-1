@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import styled from "styled-components";
 import Search from "../components/Search";
 import Issue from "../components/Issue";
@@ -80,11 +80,16 @@ const Home = () => {
   let saveRepos = JSON.parse(localStorage.getItem("repoBookmark"));
   const [currentTab, setCurrntTab] = useState(0);
   const [issueRepo, setIssueRepo] = useState(saveRepos);
+  const [update, setUpdate] = useState(false);
+
+  useEffect(() => {
+    setIssueRepo(saveRepos);
+  }, [update]);
 
   const menuArr = [
     {
       name: 'Search',
-      content: <Search />,
+      content: <Search setUpdate={setUpdate} />,
     },
     {
       name: 'Issue',
@@ -123,7 +128,7 @@ const Home = () => {
       </MainContainer>
       <StoreContainer>
         <h2>Public Repository</h2>
-        <Store setIssueRepo={setIssueRepo} />
+        <Store setIssueRepo={setIssueRepo} setUpdate={setUpdate}/>
       </StoreContainer>
     </Container>
   );

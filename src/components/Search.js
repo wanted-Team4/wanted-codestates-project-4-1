@@ -57,7 +57,7 @@ const ListBox = styled.div`
     height: 42em;
 `
 
-const Search = () => {
+const Search = ({setUpdate}) => {
     const inputRef = useRef("");
     const [repoList, setRepoList] = useState([]);
     const [loading, setLoading] = useState(null);
@@ -119,6 +119,7 @@ const Search = () => {
                                         < ContentBox
                                             key={repo.id}
                                             repo={repo}
+                                            setUpdate={setUpdate}
                                         />
                                     ))
                                 }

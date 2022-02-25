@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import styled from "styled-components";
 
 const RepoListBox = styled.div`
@@ -70,19 +70,19 @@ const LinkBox = styled.a`
     }
 `
 
-const ContentBox = ({ repo }) => {
+const ContentBox = ({ repo, setUpdate }) => {
     const { name, description, updated_at, owner, full_name, html_url } = repo
     const [isOn, setIsOn] = useState(false);
 
-
     const toggleHandler = () => {
-        setIsOn(!isOn)
+        setIsOn(!isOn);
+        setUpdate(prev => !prev);
     }
 
     const repoHandler = (fullName, url, title, date) => {
         const name = fullName.split('/')
         let saveRepos = JSON.parse(localStorage.getItem("repoBookmark"));
-
+        
         if (!saveRepos) {
             const repoBookmark = JSON.stringify([{ user: name[0], repo: name[1], url, title, date }]);
             localStorage.setItem("repoBookmark", repoBookmark);
