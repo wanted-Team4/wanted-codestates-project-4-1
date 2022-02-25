@@ -79,6 +79,7 @@ const StoreContainer = styled.div`
 const Home = () => {
   let saveRepos = JSON.parse(localStorage.getItem("repoBookmark"));
   const [currentTab, setCurrntTab] = useState(0);
+  const [issueRepo, setIssueRepo] = useState(saveRepos);
 
   const menuArr = [
     {
