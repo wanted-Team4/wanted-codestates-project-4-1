@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { useState, useCallback } from 'react';
 
-const Store = ({setIssueRepo, setUpdate, setCurrntTab}) => {
+const Store = ({ setIssueRepo, setUpdate, setCurrntTab }) => {
     const [isOn, setIsOn] = useState(false);
     let repoBookmark = JSON.parse(localStorage.getItem('repoBookmark')); //클릭시 issue에 인자로 보내줌
 
@@ -33,7 +33,7 @@ const Store = ({setIssueRepo, setUpdate, setCurrntTab}) => {
                 const addRepoBookmark = JSON.stringify([...saveRepos, { user: name, repo: repo, url, title, date }]);
                 localStorage.setItem("repoBookmark", addRepoBookmark);
                 toggleHandler();
-            } 
+            }
         }
     };
 
@@ -54,7 +54,7 @@ const Store = ({setIssueRepo, setUpdate, setCurrntTab}) => {
 
     return (
         <>
-            {repoBookmark !== null ? (
+            {repoBookmark.length !== 0 ? (
                 repoBookmark &&
                 repoBookmark.map((repoItem, i) => (
                     <RepoListBox key={i}>
@@ -72,11 +72,13 @@ const Store = ({setIssueRepo, setUpdate, setCurrntTab}) => {
 
                         <svg
                             className='checked'
-                            onClick={() => {bookmarkHandler(repoItem.user, 
-                                                            repoItem.repo, 
-                                                            repoItem.url,
-                                                            repoItem.title,
-                                                            repoItem.date)}}
+                            onClick={() => {
+                                bookmarkHandler(repoItem.user,
+                                    repoItem.repo,
+                                    repoItem.url,
+                                    repoItem.title,
+                                    repoItem.date)
+                            }}
                             xmlns='http://www.w3.org/2000/svg'
                             height='24px'
                             viewBox='0 0 24 24'
