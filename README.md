@@ -1,6 +1,6 @@
-# 🧥 wanted-codestates-project-4-1
+# 💵 wanted-codestates-project-4-1
 
-## 🧥 Implement
+## 💵 Implement
 
 ### Stack
 
@@ -21,7 +21,7 @@ GitHub의 Public Repositor와 Issue들을 모아볼 수 있습니다.
 
 ###
 
-## 🧥 Directory
+## 💵 Directory
 
 ```
 ├── public/
@@ -41,7 +41,7 @@ GitHub의 Public Repositor와 Issue들을 모아볼 수 있습니다.
 
 ###
 
-## 🧥 Code Convention
+## 💵 Code Convention
 
 ### Getting Started
 
