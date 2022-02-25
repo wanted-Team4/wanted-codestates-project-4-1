@@ -9,7 +9,7 @@ const IssueWrapper = styled.div`
   justify-content: flex-start;
   align-items: center;
   width: 100%;
-  height: 74.5vh;
+  height: 80vh;
 `;
 
 const Issues = styled.div`
@@ -50,46 +50,46 @@ const Context = styled.div`
   }
 `;
 
-const Issue = ({user}) => {
+const Issue = ({ user }) => {
   const [issueList, setIssueList] = useState();
   const [limit, setLimit] = useState(5);
   const [page, setPage] = useState(1);
   const offset = (page - 1) * limit;
 
   useEffect(() => {
-    user.map((user) => 
+    user.map((user) =>
       searchIssues(user.user, user.repo)
     );
   }, []);
-  
+
   return (
     <IssueWrapper>
-      { (issueList) ? (
+      {(issueList) ? (
         <>
-        <Issues>
-          { issueList.slice(offset, offset + limit).map((issue) => 
-            <IssueRepo key={issue.id}>
-              <a href={issue.user.html_url} target="_blank">
-                <UserImage src={issue.user.avatar_url}/>
-              </a>
-              <a href={issue.html_url} target="_blank">
-                <Context>
-                  <h2>{issue.title}</h2>
-                  <p>{issue.body ? issue.body.slice(0, 50) + " ..." : "Empty"}</p>
-                  <p style={{fontSize: "0.8rem"}}>update at {issue.updated_at.split('T')[0]} by {issue.user.login}</p>
-                </Context>
-              </a>
-            </IssueRepo>
-          )}
-        </Issues>
+          <Issues>
+            {issueList.slice(offset, offset + limit).map((issue) =>
+              <IssueRepo key={issue.id}>
+                <a href={issue.user.html_url} target="_blank">
+                  <UserImage src={issue.user.avatar_url} />
+                </a>
+                <a href={issue.html_url} target="_blank">
+                  <Context>
+                    <h2>{issue.title}</h2>
+                    <p>{issue.body ? issue.body.slice(0, 50) + " ..." : "Empty"}</p>
+                    <p style={{ fontSize: "0.8rem" }}>update at {issue.updated_at.split('T')[0]} by {issue.user.login}</p>
+                  </Context>
+                </a>
+              </IssueRepo>
+            )}
+          </Issues>
           <Pagination
             total={issueList.length}
             limit={limit}
             page={page}
             setPage={setPage}
-          /> 
+          />
         </>
-        ) : "NOT ISSUE!" 
+      ) : "NOT ISSUE!"
       }
     </IssueWrapper>
   );
@@ -98,7 +98,7 @@ const Issue = ({user}) => {
     await octokit.request('GET /repos/{owner}/{repo}/issues', {
       owner: owner,
       repo: repo
-    }).then(res =>{
+    }).then(res => {
       const loadData = res.data;
       setIssueList((prev) => prev ? [...prev, ...loadData] : loadData);
     }).catch((err) => alert(`에러 ${err}`));

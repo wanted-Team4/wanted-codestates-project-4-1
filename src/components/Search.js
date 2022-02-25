@@ -51,7 +51,10 @@ const SearchBtn = styled.button`
     }
 `
 const EmptyBox = styled.div`
-    height: 73vh;
+    height: 42em;
+`
+const ListBox = styled.div`
+    height: 42em;
 `
 
 const Search = () => {
@@ -107,25 +110,27 @@ const Search = () => {
                     ></SearchInput>
                     <SearchBtn onClick={onClick}>검색</SearchBtn>
                 </SearchBox>{loading ? <Loading /> : <></>}
-                {repoList.length === 0 ?
-                    <EmptyBox></EmptyBox> : (
-                        <>
-                            {
-                                repoList.slice(offset, offset + limit).map((repo) => (
-                                    < ContentBox
-                                        key={repo.id}
-                                        repo={repo}
-                                    />
-                                ))
-                            }
-                            <Pagination
-                                total={repoList.length}
-                                limit={limit}
-                                page={page}
-                                setPage={setPage}
-                            />
-                        </>
-                    )}
+                <ListBox>
+                    {repoList.length === 0 ?
+                        <EmptyBox></EmptyBox> : (
+                            <>
+                                {
+                                    repoList.slice(offset, offset + limit).map((repo) => (
+                                        < ContentBox
+                                            key={repo.id}
+                                            repo={repo}
+                                        />
+                                    ))
+                                }
+                                <Pagination
+                                    total={repoList.length}
+                                    limit={limit}
+                                    page={page}
+                                    setPage={setPage}
+                                />
+                            </>
+                        )}
+                </ListBox>
             </Container >
         </>
     )
