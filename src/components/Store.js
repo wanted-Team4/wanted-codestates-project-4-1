@@ -1,19 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useEffect, useState, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 
-const Store = ({setIssueRepo}) => {
+const Store = ({setIssueRepo, setUpdate}) => {
     const [isOn, setIsOn] = useState(false);
-    const [, setUpdate] = useState();
-    const forceUpdate = useCallback(() => setUpdate({}, []));
     let repoBookmark = JSON.parse(localStorage.getItem('repoBookmark')); //클릭시 issue에 인자로 보내줌
-
-    useEffect(() => {
-        forceUpdate();
-    }, [repoBookmark]);
 
     const toggleHandler = () => {
         setIsOn(!isOn);
+        setUpdate(prev => !prev);
     };
 
     const bookmarkHandler = (name, repo, url, title, date) => {

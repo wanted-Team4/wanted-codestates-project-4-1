@@ -60,20 +60,21 @@ const Issue = ({ user, }) => {
 
   useEffect(() => {
     setIssueList();
-    
-    if(user.length > 1) {
-      user.map((user) =>
-        searchIssues(user.user, user.repo)
-      );
-    } else {
-      searchIssues(user.user, user.repo)
+    if(user.length != 0) {
+      if(user.length > 1) {
+        user.map((user) =>
+          searchIssues(user.user, user.repo)
+        );
+      } else {
+        searchIssues(user[0].user, user[0].repo);
+      }
+      setLoading(false);
     }
-    setLoading(false);
   }, [user]);
 
   return (
     <IssueWrapper>
-      {loading ? <Loading /> : (
+      {!user ? <Loading /> : (
         (issueList) ? (
         <>
           <Issues>
