@@ -1,28 +1,53 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useEffect, useState, useCallback } from 'react';
-import { useRecoilState } from 'recoil';
-import { Repos } from '../atoms';
-import ContentBox from './ContentBox';
 
-const Store = () => {
+const Store = ({setIssueRepo}) => {
     const [isOn, setIsOn] = useState(false);
+    const [, setUpdate] = useState();
+    const forceUpdate = useCallback(() => setUpdate({}, []));
     let repoBookmark = JSON.parse(localStorage.getItem('repoBookmark')); //클릭시 issue에 인자로 보내줌
-    console.log('>>>', repoBookmark);
+
+    useEffect(() => {
+        forceUpdate();
+    }, [repoBookmark]);
 
     const toggleHandler = () => {
         setIsOn(!isOn);
     };
 
-    const [update, setUpdate] = useState(repoBookmark);
-    const forceUpdate = useCallback(() => setUpdate({}, []));
+    const bookmarkHandler = (name, repo, url, title, date) => {
+        let saveRepos = JSON.parse(localStorage.getItem("repoBookmark"));
 
-    useEffect(() => {
-        forceUpdate();
-    }, [update]);
+        if (!saveRepos) {
+            const repoBookmark = JSON.stringify([{ user: name, repo: repo, url, title, date }]);
+            localStorage.setItem("repoBookmark", repoBookmark);
+            toggleHandler();
+        } else {
+            let check = true;
+            saveRepos.forEach((el) => {
+                if (el.user === name) {
+                    const repoBookmark = JSON.parse(localStorage.getItem("repoBookmark"));
+                    const newRepoBookmark = repoBookmark.filter((el) => el.user !== name);
+                    localStorage.setItem("repoBookmark", JSON.stringify(newRepoBookmark));
+                    toggleHandler();
+                    check = false;
+                }
+            });
+            if (saveRepos.length < 4 && check) {
+                const addRepoBookmark = JSON.stringify([...saveRepos, { user: name, repo: repo, url, title, date }]);
+                localStorage.setItem("repoBookmark", addRepoBookmark);
+                toggleHandler();
+            } 
+        }
+    };
 
-    const bookmarkHandler = () => {};
-
+    const issueHandler = (item) => {
+        setIssueRepo({
+            user: item.user,
+            repo: item.repo
+        })
+    };
     /*
     date: "2018-11-09T22:47:08Z"
     repo: "Delphi_Calculate"
@@ -36,8 +61,8 @@ const Store = () => {
             {repoBookmark !== null ? (
                 repoBookmark &&
                 repoBookmark.map((repoItem, i) => (
-                    <RepoListBox key={i} onClick={() => {}}>
-                        <InfoBox>
+                    <RepoListBox key={i}>
+                        <InfoBox onClick={() => issueHandler(repoItem)}>
                             <ImageBox>
                                 <img src={repoItem.url} alt='프로필' />
                             </ImageBox>
@@ -50,8 +75,12 @@ const Store = () => {
                         </InfoBox>
 
                         <svg
-                            className={`${isOn ? 'checked' : 'unchecked'}`}
-                            onClick={bookmarkHandler}
+                            className='checked'
+                            onClick={() => {bookmarkHandler(repoItem.user, 
+                                                            repoItem.repo, 
+                                                            repoItem.url,
+                                                            repoItem.title,
+                                                            repoItem.date)}}
                             xmlns='http://www.w3.org/2000/svg'
                             height='24px'
                             viewBox='0 0 24 24'

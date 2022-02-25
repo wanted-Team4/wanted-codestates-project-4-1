@@ -120,8 +120,6 @@ const ContentBox = ({ repo }) => {
         }
     }, []);
 
-    console.log(localStorage)
-
     return (
         <RepoListBox>
             <InfoBox>

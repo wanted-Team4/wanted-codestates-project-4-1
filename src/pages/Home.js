@@ -87,7 +87,7 @@ const Home = () => {
     },
     {
       name: 'Issue',
-      content: <Issue user={saveRepos} />
+      content: <Issue user={issueRepo} />
     }
   ];
 
@@ -122,7 +122,7 @@ const Home = () => {
       </MainContainer>
       <StoreContainer>
         <h2>Public Repository</h2>
-        <Store />
+        <Store setIssueRepo={setIssueRepo} />
       </StoreContainer>
     </Container>
   );
