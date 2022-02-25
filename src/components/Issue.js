@@ -2,19 +2,24 @@ import { octokit } from '../utils/octokit';
 import styled from "styled-components";
 import { useEffect, useState } from "react";
 import Pagination from "./Pagination";
+
 const IssueWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  margin-top: 20px;
   width: 100%;
+  height: 74.5vh;
+`;
+
+const Issues = styled.div`
   height: 100%;
 `;
 
 const IssueRepo = styled.div`
   display: flex;
   align-items: center;
+  background-color: white;
   width: 600px;
   height: 100px;
   margin-bottom: 20px;
@@ -45,38 +50,40 @@ const Context = styled.div`
   }
 `;
 
-const Issue = (props) => {
-  const [issueData, setIssueData] = useState();
+const Issue = ({user}) => {
+  const [issueList, setIssueList] = useState();
   const [limit, setLimit] = useState(5);
   const [page, setPage] = useState(1);
   const offset = (page - 1) * limit;
 
   useEffect(() => {
-    props.user.map((user) => 
-      searchIssues(user.userName, user.userRepo)
+    user.map((user) => 
+      searchIssues(user.user, user.repo)
     );
   }, []);
   
   return (
     <IssueWrapper>
-      { (issueData) ? (
+      { (issueList) ? (
         <>
-        { issueData.slice(offset, offset + limit).map((issue) => 
-          <IssueRepo>
-            <a href={issue.user.html_url}>
-              <UserImage src={issue.user.avatar_url}/>
-            </a>
-            <a href={issue.html_url}>
-              <Context>
-                <h2>{issue.title}</h2>
-                <p>{issue.body ? issue.body.slice(0, 50) + " ..." : "Empty"}</p>
-                <p style={{fontSize: "0.8rem"}}>update at {issue.updated_at.split('T')[0]} by {issue.user.login}</p>
-              </Context>
-            </a>
-          </IssueRepo>
-        )}
+        <Issues>
+          { issueList.slice(offset, offset + limit).map((issue) => 
+            <IssueRepo key={issue.id}>
+              <a href={issue.user.html_url} target="_blank">
+                <UserImage src={issue.user.avatar_url}/>
+              </a>
+              <a href={issue.html_url} target="_blank">
+                <Context>
+                  <h2>{issue.title}</h2>
+                  <p>{issue.body ? issue.body.slice(0, 50) + " ..." : "Empty"}</p>
+                  <p style={{fontSize: "0.8rem"}}>update at {issue.updated_at.split('T')[0]} by {issue.user.login}</p>
+                </Context>
+              </a>
+            </IssueRepo>
+          )}
+        </Issues>
           <Pagination
-            total={issueData.length}
+            total={issueList.length}
             limit={limit}
             page={page}
             setPage={setPage}
@@ -93,7 +100,7 @@ const Issue = (props) => {
       repo: repo
     }).then(res =>{
       const loadData = res.data;
-      setIssueData((prev) => prev ? [...prev, ...loadData] : loadData);
+      setIssueList((prev) => prev ? [...prev, ...loadData] : loadData);
     }).catch((err) => alert(`에러 ${err}`));
   }
 }
