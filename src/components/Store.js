@@ -7,8 +7,8 @@ import ContentBox from './ContentBox';
 
 const Store = () => {
     const [isOn, setIsOn] = useState(false);
-    let saveRepos = JSON.parse(localStorage.getItem('repoBookmark')); //클릭시 issue에 인자로 보내줌
-    console.log('>>>', saveRepos);
+    let repoBookmark = JSON.parse(localStorage.getItem('repoBookmark')); //클릭시 issue에 인자로 보내줌
+    console.log('>>>', repoBookmark);
 
     const toggleHandler = () => {
         setIsOn(!isOn);
@@ -29,12 +29,12 @@ const Store = () => {
 
         }
         */
-        let saveRepos = JSON.parse(localStorage.getItem('repoBookmark'));
     };
 
     return (
         <StoreWrapper>
-            {repoBookmark &&
+            {repoBookmark !== null ? (
+                repoBookmark &&
                 repoBookmark.map((repoItem, i) => (
                     <Container key={i} onClick={() => {}}>
                         <InfoBox>
@@ -60,7 +60,12 @@ const Store = () => {
                             <path d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z' />
                         </svg>
                     </Container>
-                ))}
+                ))
+            ) : (
+                <>
+                    <MessageBox>북마크에 Repository를 추가해보세요.</MessageBox>
+                </>
+            )}
         </StoreWrapper>
     );
 };
@@ -113,4 +118,9 @@ const Desc = styled.p`
 const Date = styled.p`
     font-size: 0.8em;
     font-weight: 400;
+`;
+
+const MessageBox = styled.p`
+    text-align: center;
+    padding: 1rem;
 `;
