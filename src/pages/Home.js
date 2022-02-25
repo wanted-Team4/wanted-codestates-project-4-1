@@ -6,7 +6,7 @@ import styled from "styled-components";
 import Search from "../components/Search";
 import Issue from "../components/Issue";
 
-const MainContainer = styled.div`
+const MainContainer = styled.main`
   width: 100%;
   height: 100%;
 `;
@@ -46,9 +46,13 @@ const TabMenu = styled.ul`
     }
 `;
 
+const MenuContent = styled.li`
+  height: 100%;
+`;
+
 const Desc = styled.div`
     text-align: center;
-    padding: 2.5rem 0;
+    padding: 2.5em 0 4em 0;
     font-weight: bold;
     background-color: #f1f1f1;
     height: 100%;
@@ -105,11 +109,11 @@ const Home = () => {
         <LogoText>PayHere</LogoText>
         <TabMenu>
           {menuArr.map((el, idx) => (
-            <li
+            <MenuContent
               key={idx}
               onClick={() => selectMenuHandler(idx)}
               className={idx === currentTab ? 'submenu focused' : 'submenu'}
-            >{el.name}</li>
+            >{el.name}</MenuContent>
           ))}
         </TabMenu>
       </Navbar>

@@ -16,7 +16,7 @@ const SearchBox = styled.div`
     flex: 1;
     display: flex;
     justify-content: center;
-    margin-bottom: 1.5em;
+    margin-bottom: 1em;
 `
 
 const SearchInput = styled.input`
@@ -33,17 +33,24 @@ const SearchInput = styled.input`
 `
 
 const SearchBtn = styled.button`
-    width: 4em;
+    width: 5em;
     height: 2.8em;
     border-radius: 5px;
     border: none;
     background-color: #457CC7;
+    border: 1px solid #457CC7;
     color: #ffffff;
     font-size: 0.9em;
     box-shadow: 5px 5px 7px 0px rgba(217, 217, 217, 1);
+    :hover {
+        cursor: pointer;
+        background-color: #ffffff;
+        color: #457CC7;
+        border: 1px solid #457CC7;
+    }
 `
 const EmptyBox = styled.div`
-    height: 66vh;
+    height: 73vh;
 `
 
 const Search = () => {
@@ -94,7 +101,7 @@ const Search = () => {
                     <SearchBtn onClick={onClick}>검색</SearchBtn>
                 </SearchBox>
                 {repoList.length === 0 ?
-                    <></> : (
+                    <EmptyBox></EmptyBox> : (
                         <>
                             {
                                 repoList.slice(offset, offset + limit).map((repo) => (
