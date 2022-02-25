@@ -59,7 +59,6 @@ const Home = () => {
   const [issueData, setIssueData] = useState();
   const [repos, setRepos] = useRecoilState(Repos);
   const [currentTab, setCurrntTab] = useState(0)
-  const [repoList, setRepoList] = useState([]);
 
   const user = [
     {
@@ -73,7 +72,7 @@ const Home = () => {
   ];
 
   const menuArr = [
-    { name: 'Search', content: <Search repoList={repoList} setRepoList={setRepoList} /> },
+    { name: 'Search', content: <Search /> },
     {
       name: 'Issue',
       content: <Issue user={user}></Issue>
@@ -81,7 +80,7 @@ const Home = () => {
   ];
 
   // const menuArr = [
-  //   { name: 'Search', content: <Search repoList={repoList} setRepoList={setRepoList} /> },
+  //   { name: 'Search', content: <Search /> },
   //   { name: 'Issue', content: <Issue userName='songgao' userRepo='water'></Issue> }
   // ];
 
@@ -96,9 +95,9 @@ const Home = () => {
     searchIssues('songgao', 'water');
   }, []);
 
-  if (repoData)
-    console.log(repoData[0].full_name.split('/'));
-  console.log(issueData);
+  // if (repoData)
+  //   console.log(repoData[0].full_name.split('/'));
+  // console.log(issueData);
 
   return (
     <MainContainer>

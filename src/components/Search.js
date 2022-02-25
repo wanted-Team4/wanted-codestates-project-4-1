@@ -46,8 +46,9 @@ const EmptyBox = styled.div`
     height: 66vh;
 `
 
-const Search = ({ repoList, setRepoList }) => {
+const Search = () => {
     const inputRef = useRef("");
+    const [repoList, setRepoList] = useState([]);
     const [limit, setLimit] = useState(5);
     const [page, setPage] = useState(1);
     const offset = (page - 1) * limit;
