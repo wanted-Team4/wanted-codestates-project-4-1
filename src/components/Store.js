@@ -6,7 +6,7 @@ import { Repos } from '../atoms';
 import ContentBox from './ContentBox';
 
 const Store = () => {
-    const [isOn, setIsOn] = useState(false);
+    const [isOn, setIsOn] = useState(true);
     let repoBookmark = JSON.parse(localStorage.getItem('repoBookmark')); //클릭시 issue에 인자로 보내줌
     console.log('>>>', repoBookmark);
 
@@ -21,7 +21,9 @@ const Store = () => {
         forceUpdate();
     }, [update]);
 
-    const bookmarkHandler = () => {};
+    const bookmarkHandler = () => {
+        toggleHandler();
+    };
 
     /*
     date: "2018-11-09T22:47:08Z"
@@ -91,12 +93,12 @@ const RepoListBox = styled.div`
         cursor: pointer;
         transform: translateY(-3px);
     }
-
-    > .checked {
-        fill: #fd9999;
-    }
-    > .unchecked {
-        fill: #cbc3c3;
+    .checked {
+            fill: #fd9999;
+        }
+    .unchecked {
+            fill: #cbc3c3;
+        }
     }
 `;
 
