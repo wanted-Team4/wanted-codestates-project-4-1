@@ -40,16 +40,22 @@ const Button = styled.button`
 function Pagination({ total, limit, page, setPage }) {
   const numPages = Math.ceil(total / limit);
   const [start, setStart] = useState(1);
-
+  
   const prev = () => {
-    if (page === start && page !== 1)
-      setStart(prev => prev - 3)
+    if (page === start && page !== 1){
+      if(page - 3 <= 1)
+        setStart(prev => prev - 1)
+      else setStart(prev => prev - 3)
+    }
     setPage(page - 1)
   }
 
   const next = () => {
-    if (page === start + 4 && page !== numPages)
-      setStart(prev => prev + 3)
+    if (page === start + 4 && page !== numPages){
+      if(page + 3 >= numPages)
+        setStart(prev => prev + 1) 
+      else  setStart(prev => prev + 3)
+    }
     setPage(page + 1)
   }
 
