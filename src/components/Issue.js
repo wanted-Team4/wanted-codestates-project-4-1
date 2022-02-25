@@ -2,6 +2,7 @@ import { octokit } from '../utils/octokit';
 import styled from "styled-components";
 import { useEffect, useState } from "react";
 import Pagination from "./Pagination";
+import Loading from './Loading';
 
 const IssueWrapper = styled.div`
   display: flex;
@@ -50,21 +51,30 @@ const Context = styled.div`
   }
 `;
 
-const Issue = ({ user }) => {
+const Issue = ({ user, }) => {
   const [issueList, setIssueList] = useState();
+  const [loading, setLoading] = useState(true);
   const [limit, setLimit] = useState(5);
   const [page, setPage] = useState(1);
   const offset = (page - 1) * limit;
 
   useEffect(() => {
-    user.map((user) =>
+    setIssueList();
+    
+    if(user.length > 1) {
+      user.map((user) =>
+        searchIssues(user.user, user.repo)
+      );
+    } else {
       searchIssues(user.user, user.repo)
-    );
-  }, []);
+    }
+    setLoading(false);
+  }, [user]);
 
   return (
     <IssueWrapper>
-      {(issueList) ? (
+      {loading ? <Loading /> : (
+        (issueList) ? (
         <>
           <Issues>
             {issueList.slice(offset, offset + limit).map((issue) =>
@@ -90,7 +100,7 @@ const Issue = ({ user }) => {
           />
         </>
       ) : "NOT ISSUE!"
-      }
+      )}
     </IssueWrapper>
   );
 
