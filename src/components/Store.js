@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { useState, useCallback } from 'react';
 
-const Store = ({setIssueRepo, setUpdate}) => {
+const Store = ({setIssueRepo, setUpdate, setCurrntTab}) => {
     const [isOn, setIsOn] = useState(false);
     let repoBookmark = JSON.parse(localStorage.getItem('repoBookmark')); //클릭시 issue에 인자로 보내줌
 
@@ -42,6 +42,7 @@ const Store = ({setIssueRepo, setUpdate}) => {
             user: item.user,
             repo: item.repo
         })
+        setCurrntTab(1);
     };
     /*
     date: "2018-11-09T22:47:08Z"
