@@ -68,9 +68,11 @@ const Search = () => {
             q: inputRef.current.value
         }).then((res) => {
             const loadData = res.data.items;
-            console.log(loadData)
             setRepoList(loadData);
             setLoading(false);
+            if (loadData.length === 0) {
+                alert('검색 결과가 없습니다.')
+            }
         })
             .catch((err) => alert(`에러 ${err}`));
     };
