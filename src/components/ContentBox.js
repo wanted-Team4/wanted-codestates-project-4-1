@@ -41,13 +41,19 @@ const ImageBox = styled.img`
 const TextBox = styled.div`
 `
 const Title = styled.p`
-    margin-bottom: 0.2em;
+    margin-bottom: 0.4em;
     font-size: 1.1em;
+    color: #457CC7;
 `
 const Desc = styled.p`
+    width: 45em;
     font-size: 0.8em;
     font-weight: 400;
-    margin-bottom: 0.2em;
+    margin-bottom: 0.5em;
+    display: block;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 `
 const Date = styled.p`
     font-size: 0.8em;
@@ -55,6 +61,7 @@ const Date = styled.p`
 `
 const LinkBox = styled.a`
     display: flex;
+    align-items: center;
     text-decoration: none;
     color: black;
 
@@ -123,7 +130,7 @@ const ContentBox = ({ repo }) => {
                     <TextBox>
                         <Title>{name}</Title>
                         <Desc>{description}</Desc>
-                        <Date>{updated_at}</Date>
+                        <Date>update at {updated_at.split('T')[0]}</Date>
                     </TextBox>
                 </LinkBox>
             </InfoBox>
