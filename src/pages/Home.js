@@ -79,6 +79,7 @@ const StoreContainer = styled.div`
 const Home = () => {
   let saveRepos = JSON.parse(localStorage.getItem("repoBookmark"));
   const [currentTab, setCurrntTab] = useState(0);
+  const [issueRepo, setIssueRepo] = useState(saveRepos);
 
   const menuArr = [
     {
@@ -87,7 +88,7 @@ const Home = () => {
     },
     {
       name: 'Issue',
-      content: <Issue user={saveRepos} />
+      content: <Issue user={issueRepo} />
     }
   ];
 
@@ -122,7 +123,7 @@ const Home = () => {
       </MainContainer>
       <StoreContainer>
         <h2>Public Repository</h2>
-        <Store />
+        <Store setIssueRepo={setIssueRepo} />
       </StoreContainer>
     </Container>
   );
