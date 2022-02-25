@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 
 const RepoListBox = styled.div`
@@ -67,6 +67,7 @@ const ContentBox = ({ repo }) => {
     const { name, description, updated_at, owner, full_name, html_url } = repo
     const [isOn, setIsOn] = useState(false);
 
+
     const toggleHandler = () => {
         setIsOn(!isOn)
     }
@@ -99,6 +100,18 @@ const ContentBox = ({ repo }) => {
             }
         }
     };
+
+    let checkSavedRepos = JSON.parse(localStorage.getItem("repoBookmark"));
+    const userInfo = full_name.split('/')
+
+    useEffect(() => {
+        if (checkSavedRepos) {
+            checkSavedRepos.map((repo) => {
+                if (repo.user === userInfo[0] && repo.repo === userInfo[1])
+                    setIsOn(true);
+            })
+        }
+    }, []);
 
     console.log(localStorage)
 

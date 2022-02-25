@@ -14,15 +14,15 @@ const Button = styled.button`
   border-radius: 5px;
   padding: 8px;
   margin: 0;
-  background: #041562;
-  border: 1px solid #041562;
+  background: #457CC7;
+  border: 1px solid #457CC7;
   color: white;
   font-size: 1rem;
 
   &:hover {
     background: #ffffff;
-    color: #041562;
-    border: 1px solid #041562;
+    color: #457CC7;
+    border: 1px solid #457CC7;
     cursor: pointer;
     font-weight: bold;
   }
@@ -32,18 +32,18 @@ const Button = styled.button`
     font-weight: bold;
     cursor: revert;
     transform: revert;
-    color: #041562;
-    border: 1px solid #041562;
+    color: #457CC7;
+    border: 1px solid #457CC7;
   }
 `;
 
 function Pagination({ total, limit, page, setPage }) {
   const numPages = Math.ceil(total / limit);
   const [start, setStart] = useState(1);
-  
+
   const prev = () => {
-    if (page === start && page !== 1){
-      if(page - 3 <= 1)
+    if (page === start && page !== 1) {
+      if (page - 3 <= 1)
         setStart(prev => prev - 1)
       else setStart(prev => prev - 3)
     }
@@ -51,10 +51,10 @@ function Pagination({ total, limit, page, setPage }) {
   }
 
   const next = () => {
-    if (page === start + 4 && page !== numPages){
-      if(page + 3 >= numPages)
-        setStart(prev => prev + 1) 
-      else  setStart(prev => prev + 3)
+    if (page === start + 4 && page !== numPages) {
+      if (page + 3 >= numPages)
+        setStart(prev => prev + 1)
+      else setStart(prev => prev + 3)
     }
     setPage(page + 1)
   }
