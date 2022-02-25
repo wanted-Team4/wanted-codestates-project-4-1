@@ -5,9 +5,9 @@ import styled from "styled-components";
 
 const App = () => {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={process.env.PUBLIC_URL}>
       <MainContainer>
-        <Routes basename={process.env.PUBLIC_URL}>
+        <Routes>
           <Route exact path="/" element={<Home />} />
         </Routes>
       </MainContainer>
