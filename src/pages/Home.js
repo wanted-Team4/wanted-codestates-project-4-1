@@ -1,13 +1,11 @@
-import { octokit } from '../utils/octokit';
-import { useEffect, useState } from 'react';
-import { useRecoilState } from 'recoil';
-import { Repos } from '../atoms';
-import styled from 'styled-components';
-import Issue from '../components/Issue';
+import { useState } from "react";
+import styled from "styled-components";
+import Search from "../components/Search";
+import Issue from "../components/Issue";
 import Store from '../components/Store';
-import Search from '../components/Search';
 
-const Container = styled.div`
+
+const Container = styled.main`
     display: flex;
 `;
 const MainContainer = styled.div`
@@ -56,14 +54,15 @@ const MenuContent = styled.li`
 
 const Desc = styled.div`
     text-align: center;
-    padding: 2.5em 0 4em 0;
+    padding-top: 2.5em;
     font-weight: bold;
+    background-color: #f1f1f1;
 `;
 
 const StoreContainer = styled.div`
     width: 30%;
     height: 100vh;
-    border-left: solid 1px #457cc7;
+    border-left: solid 1px #457CC7;
 
     h2 {
         font-size: 1.5em;
@@ -78,113 +77,55 @@ const StoreContainer = styled.div`
 `;
 
 const Home = () => {
-    const [repoData, setRepoData] = useState();
-    const [issueData, setIssueData] = useState();
-    const [repos, setRepos] = useRecoilState(Repos);
-    const [currentTab, setCurrntTab] = useState(0);
-    const [repoList, setRepoList] = useState([]);
+  let saveRepos = JSON.parse(localStorage.getItem("repoBookmark"));
+  const [currentTab, setCurrntTab] = useState(0);
 
-    const user = [
-        {
-            userName: 'songgao',
-            userRepo: 'water',
-        },
-        {
-            userName: 'balderdashy',
-            userRepo: 'waterline',
-        },
-    ];
-
-    const menuArr = [
-        {
-            name: 'Search',
-            content: <Search repoList={repoList} setRepoList={setRepoList} />,
-        },
-        {
-            name: 'Issue',
-            content: <Issue user={user}></Issue>,
-        },
-        {
-            name: 'Store',
-            content: <Store repoList={repoList}></Store>,
-        },
-    ];
-
-    // const menuArr = [
-    //   { name: 'Search', content: <Search repoList={repoList} setRepoList={setRepoList} /> },
-    //   { name: 'Issue', content: <Issue userName='songgao' userRepo='water'></Issue> }
-    // ];
-
-    const selectMenuHandler = (index) => {
-        setCurrntTab(index);
-    };
-
-    const addRepo = () => setRepos({ 1: '1' });
-
-    useEffect(() => {
-        searchRepo('water');
-        searchIssues('songgao', 'water');
-    }, []);
-
-    if (repoData) console.log(repoData[0].full_name.split('/'));
-    console.log(issueData);
-
-    return (
-        <Container>
-            <MainContainer>
-                <Navbar>
-                    <LogoText>PayHere</LogoText>
-
-                    <TabMenu>
-                        {menuArr.map((el, idx) => (
-                            <li
-                                key={idx}
-                                onClick={() => selectMenuHandler(idx)}
-                                className={
-                                    idx === currentTab
-                                        ? 'submenu focused'
-                                        : 'submenu'
-                                }
-                            >
-                                {el.name}
-                            </li>
-                        ))}
-                    </TabMenu>
-                </Navbar>
-                <Desc>
-                    <p>{menuArr[currentTab].content}</p>
-                </Desc>
-            </MainContainer>
-            <StoreContainer>
-                <h2>Public Repository</h2>
-                <Store repoList={repoList} />
-            </StoreContainer>
-        </Container>
-    );
-
-    async function searchRepo(q) {
-        await octokit
-            .request('GET /search/repositories', {
-                q: q,
-            })
-            .then((res) => {
-                const loadData = res.data.items;
-                setRepoData(loadData);
-            })
-            .catch((err) => alert(`에러 ${err}`));
+  const menuArr = [
+    {
+      name: 'Search',
+      content: <Search />,
+    },
+    {
+      name: 'Issue',
+      content: <Issue user={saveRepos} />
     }
+  ];
 
-    async function searchIssues(owner, repo) {
-        await octokit
-            .request('GET /repos/{owner}/{repo}/issues', {
-                owner: owner,
-                repo: repo,
-            })
-            .then((res) => {
-                const loadData = res.data;
-                setIssueData(loadData);
-            })
-            .catch((err) => alert(`에러 ${err}`));
-    }
+  const selectMenuHandler = (index) => {
+    setCurrntTab(index);
+  };
+
+  return (
+    <Container>
+      <MainContainer>
+        <Navbar>
+          <LogoText>PayHere</LogoText>
+          <TabMenu>
+            {menuArr.map((el, idx) => (
+              <MenuContent
+                key={idx}
+                onClick={() => selectMenuHandler(idx)}
+                className={
+                  idx === currentTab
+                    ? 'submenu focused'
+                    : 'submenu'
+                }
+              >
+                {el.name}
+              </MenuContent>
+            ))}
+          </TabMenu>
+        </Navbar>
+        <Desc>
+          {menuArr[currentTab].content}
+        </Desc>
+      </MainContainer>
+      <StoreContainer>
+        <h2>Public Repository</h2>
+        <Store />
+      </StoreContainer>
+    </Container>
+  );
 };
+
 export default Home;
