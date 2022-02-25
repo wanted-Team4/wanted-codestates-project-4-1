@@ -63,7 +63,7 @@ const Store = () => {
                 ))
             ) : (
                 <>
-                    <MessageBox>북마크에 Repository를 추가해보세요.</MessageBox>
+                    <MessageBox>북마크에 Repository를 추가해보세요!</MessageBox>
                 </>
             )}
         </StoreWrapper>
