@@ -38,10 +38,9 @@ const Button = styled.button`
 `;
 
 function Pagination({ total, limit, page, setPage }) {
-  console.log(total);
   const numPages = Math.ceil(total / limit);
   const [start, setStart] = useState(1);
-
+  
   const prev = () => {
     if (page === start && page !== 1){
       if(page - 3 <= 1)
@@ -66,7 +65,7 @@ function Pagination({ total, limit, page, setPage }) {
         <Button onClick={prev} disabled={page === 1}>
           &lt;
         </Button>
-        {Array( ( Math.ceil(total/limit) < 5) ? Math.ceil(total/limit) : 5)
+        {Array(5)
           .fill()
           .map((_, i) => (
             <Button
