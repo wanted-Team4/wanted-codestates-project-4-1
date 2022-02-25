@@ -10,7 +10,7 @@ const IssueWrapper = styled.div`
   justify-content: flex-start;
   align-items: center;
   width: 100%;
-  height: 80vh;
+  height: 82vh;
 `;
 
 const Issues = styled.div`
@@ -60,8 +60,8 @@ const Issue = ({ user, }) => {
 
   useEffect(() => {
     setIssueList();
-    if(user.length != 0) {
-      if(user.length > 1) {
+    if (user.length != 0) {
+      if (user.length > 1) {
         user.map((user) =>
           searchIssues(user.user, user.repo)
         );
@@ -76,31 +76,31 @@ const Issue = ({ user, }) => {
     <IssueWrapper>
       {!user ? <Loading /> : (
         (issueList) ? (
-        <>
-          <Issues>
-            {issueList.slice(offset, offset + limit).map((issue) =>
-              <IssueRepo key={issue.id}>
-                <a href={issue.user.html_url} target="_blank">
-                  <UserImage src={issue.user.avatar_url} />
-                </a>
-                <a href={issue.html_url} target="_blank">
-                  <Context>
-                    <h2>{issue.title}</h2>
-                    <p>{issue.body ? issue.body.slice(0, 50) + " ..." : "Empty"}</p>
-                    <p style={{ fontSize: "0.8rem" }}>update at {issue.updated_at.split('T')[0]} by {issue.user.login}</p>
-                  </Context>
-                </a>
-              </IssueRepo>
-            )}
-          </Issues>
-          <Pagination
-            total={issueList.length}
-            limit={limit}
-            page={page}
-            setPage={setPage}
-          />
-        </>
-      ) : "NOT ISSUE!"
+          <>
+            <Issues>
+              {issueList.slice(offset, offset + limit).map((issue) =>
+                <IssueRepo key={issue.id}>
+                  <a href={issue.user.html_url} target="_blank">
+                    <UserImage src={issue.user.avatar_url} />
+                  </a>
+                  <a href={issue.html_url} target="_blank">
+                    <Context>
+                      <h2>{issue.title}</h2>
+                      <p>{issue.body ? issue.body.slice(0, 50) + " ..." : "Empty"}</p>
+                      <p style={{ fontSize: "0.8rem" }}>update at {issue.updated_at.split('T')[0]} by {issue.user.login}</p>
+                    </Context>
+                  </a>
+                </IssueRepo>
+              )}
+            </Issues>
+            <Pagination
+              total={issueList.length}
+              limit={limit}
+              page={page}
+              setPage={setPage}
+            />
+          </>
+        ) : "NOT ISSUE!"
       )}
     </IssueWrapper>
   );
