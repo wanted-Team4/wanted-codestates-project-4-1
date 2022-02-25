@@ -7,7 +7,7 @@ const App = () => {
   return (
     <BrowserRouter>
       <MainContainer>
-        <Routes>
+        <Routes basename={process.env.PUBLIC_URL}>
           <Route exact path="/" element={<Home />} />
         </Routes>
       </MainContainer>
