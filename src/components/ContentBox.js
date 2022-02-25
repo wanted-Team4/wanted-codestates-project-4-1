@@ -11,11 +11,11 @@ const RepoListBox = styled.div`
     padding: 0.8em 1em;
     background-color: #ffffff;
     margin-bottom: 1em;
-    transition: 0.3s;
+    transition: 0.2s;
 
     :hover {
     cursor: pointer;
-    transform: translateY(-5px);
+    transform: translateY(-3px);
     }
 
     >.checked{
@@ -71,12 +71,12 @@ const ContentBox = ({ repo }) => {
         setIsOn(!isOn)
     }
 
-    const repoHandler = (fullName) => {
+    const repoHandler = (fullName, url, title, date) => {
         const name = fullName.split('/')
         let saveRepos = JSON.parse(localStorage.getItem("repoBookmark"));
 
         if (!saveRepos) {
-            const repoBookmark = JSON.stringify([{ user: name[0], repo: name[1] }]);
+            const repoBookmark = JSON.stringify([{ user: name[0], repo: name[1], url, title, date }]);
             localStorage.setItem("repoBookmark", repoBookmark);
             toggleHandler();
         } else {
@@ -91,7 +91,7 @@ const ContentBox = ({ repo }) => {
                 }
             });
             if (saveRepos.length < 4 && check) {
-                const addRepoBookmark = JSON.stringify([...saveRepos, { user: name[0], repo: name[1] }]);
+                const addRepoBookmark = JSON.stringify([...saveRepos, { user: name[0], repo: name[1], url, title, date }]);
                 localStorage.setItem("repoBookmark", addRepoBookmark);
                 toggleHandler();
             } else if (saveRepos.length >= 4 && !isOn) {
@@ -99,6 +99,8 @@ const ContentBox = ({ repo }) => {
             }
         }
     };
+
+    console.log(localStorage)
 
     return (
         <RepoListBox>
@@ -114,7 +116,7 @@ const ContentBox = ({ repo }) => {
             </InfoBox>
             <svg
                 className={`${isOn ? "checked" : "unchecked"}`}
-                onClick={() => repoHandler(full_name)}
+                onClick={() => repoHandler(full_name, owner.avatar_url, name, updated_at)}
                 xmlns="http://www.w3.org/2000/svg"
                 height="24px"
                 viewBox="0 0 24 24"
