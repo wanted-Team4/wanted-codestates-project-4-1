@@ -3,6 +3,7 @@ import { octokit } from '../utils/octokit';
 import styled from "styled-components";
 import ContentBox from "./ContentBox";
 import Pagination from "./Pagination";
+import Loading from "./Loading";
 
 const Container = styled.div`
     display: flex;
@@ -56,6 +57,7 @@ const EmptyBox = styled.div`
 const Search = () => {
     const inputRef = useRef("");
     const [repoList, setRepoList] = useState([]);
+    const [loading, setLoading] = useState(null);
     const [limit, setLimit] = useState(5);
     const [page, setPage] = useState(1);
     const offset = (page - 1) * limit;
@@ -64,11 +66,13 @@ const Search = () => {
         await octokit.request(
             'GET /search/repositories', {
             q: inputRef.current.value
-        }).then(res => {
+        }).then((res) => {
             const loadData = res.data.items;
             console.log(loadData)
             setRepoList(loadData);
-        }).catch((err) => alert(`에러 ${err}`));
+            setLoading(false);
+        })
+            .catch((err) => alert(`에러 ${err}`));
     };
 
     const handleSearch = () => {
@@ -76,6 +80,7 @@ const Search = () => {
             return alert('Repository 제목을 입력해주세요.')
         }
         getSearchData();
+        setLoading(true);
     }
 
     const onClick = () => {
@@ -99,7 +104,7 @@ const Search = () => {
                         ref={inputRef}
                     ></SearchInput>
                     <SearchBtn onClick={onClick}>검색</SearchBtn>
-                </SearchBox>
+                </SearchBox>{loading ? <Loading /> : <></>}
                 {repoList.length === 0 ?
                     <EmptyBox></EmptyBox> : (
                         <>
