@@ -59,14 +59,17 @@ const Issue = ({ user, }) => {
   const offset = (page - 1) * limit;
 
   useEffect(() => {
+    console.log(user);
     setIssueList();
     if (user.length != 0) {
       if (user.length > 1) {
         user.map((user) =>
           searchIssues(user.user, user.repo)
         );
-      } else {
+      } else if(user.length == 1) {
         searchIssues(user[0].user, user[0].repo);
+      } else {
+        searchIssues(user.user, user.repo);
       }
       setLoading(false);
     }

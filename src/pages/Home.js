@@ -128,7 +128,7 @@ const Home = () => {
       </MainContainer>
       <StoreContainer>
         <h2>Public Repository</h2>
-        <Store setIssueRepo={setIssueRepo} setUpdate={setUpdate}/>
+        <Store setIssueRepo={setIssueRepo} setUpdate={setUpdate} setCurrntTab={setCurrntTab}/>
       </StoreContainer>
     </Container>
   );
