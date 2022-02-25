@@ -51,13 +51,13 @@ const SearchBtn = styled.button`
     }
 `
 const EmptyBox = styled.div`
-    height: 42em;
+    height: 48em;
 `
 const ListBox = styled.div`
-    height: 42em;
+    height: 48em;
 `
 
-const Search = ({setUpdate}) => {
+const Search = ({ setUpdate }) => {
     const inputRef = useRef("");
     const [repoList, setRepoList] = useState([]);
     const [loading, setLoading] = useState(null);
